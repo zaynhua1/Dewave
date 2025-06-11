@@ -562,12 +562,7 @@ class Dewave(nn.Module):
         # Apply vector quantization
         z_q, vq_loss = self.vq_layer(z_c)
         out = self.fc(z_q)
-        dummy_decoder_input_ids = torch.full(
-            (input_embeddings_batch.shape[0], 1),  
-            tokenizer.bos_token_id,                
-            dtype=torch.long,
-            device=input_embeddings_batch.device,
-        )
+        
         output=self.language_model.generate(
             inputs_embeds = out,
             attention_mask = input_masks_batch[:,:out.shape[1]],
